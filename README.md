@@ -5,7 +5,7 @@
 <h1 align="center">Rustine</h1>
 
 <p align="center">
-  Le diagnostic gratuit de votre PC Windows, en un seul fichier de 812 Ko.<br>
+  Le diagnostic gratuit de votre PC Windows, en un seul fichier de moins de 1 Mo.<br>
   Sans installation, sans publicité, sans abonnement.
 </p>
 
@@ -21,7 +21,7 @@
 
 Rustine passe votre PC Windows au crible et vous dit ce qui ne va pas, avec la marche à suivre pour chaque problème. Vous lancez le fichier, vous choisissez une formule, et le rapport s'ouvre dans votre navigateur.
 
-C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où chaque cycle compte. Résultat : l'inventaire complet prend moins d'un dixième de seconde, et le programme entier tient dans 812 Ko, 68 fois moins que UserDiag (57 Mo).
+C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où chaque cycle compte. Résultat : l'inventaire complet prend moins d'un dixième de seconde, et le programme entier tient dans moins de 1 Mo, environ 70 fois moins que UserDiag (57 Mo).
 
 ## Ce que Rustine analyse
 
@@ -57,6 +57,10 @@ Par défaut, le rapport est envoyé sur yatofix.com pour créer un lien public �
 
 Rien ne reste installé sur votre PC. Seule exception, à votre demande : l'option « Températures » installe le pilote signé [PawnIO](https://pawnio.eu).
 
+## Mises à jour
+
+Rustine regarde ici, sur GitHub, si une version plus récente est sortie. Si oui, il vous la propose avec « Mettre à jour », « Plus tard » ou « Ne plus me rappeler », et garde un bouton **Mettre à jour** en haut de la fenêtre avec le nombre de commits de retard. La mise à jour télécharge le nouvel exécutable depuis la dernière [release](https://github.com/samirmedani/rustine/releases), vérifie son empreinte SHA-256, remplace l'ancien et relance Rustine. Rien n'est envoyé pour cela.
+
 ## Premier lancement : l'avertissement de Windows
 
 Rustine n'est pas signé avec un certificat payant, donc Windows affichera probablement « Windows a protégé votre ordinateur ».
@@ -84,6 +88,7 @@ Windows 11, 64 bits. Windows 10 peut fonctionner, sans garantie. Les droits admi
 | `--no-open` | N'ouvre pas le rapport dans le navigateur. |
 | `--sans-admin` | Pas de demande de droits administrateur. |
 | `--console` | Sortie texte dans le terminal. |
+| `--mettre-a-jour` | Installe la dernière version publiée ici, puis quitte. |
 
 ## Bugs et idées
 
