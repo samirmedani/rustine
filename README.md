@@ -49,6 +49,8 @@ C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où 
 
 Le bouton **Analyser la mémoire** surveille la RAM pendant une minute pour repérer ce qui grossit, et compare avec l'analyse précédente pour confirmer une fuite.
 
+Le bouton **⚡ Extrême** pousse chaque composant au maximum (processeur, carte graphique, mémoire, disques, seuls ou tous ensemble, puis cinq minutes de chauffe CPU + GPU) et lui attribue un score comparable d'une machine à l'autre. Si vous le souhaitez, vous pouvez publier votre score au [classement public](https://yatofix.com/rustine/leaderboard) — pseudo et configuration seulement, rien d'autre.
+
 ## Vos données
 
 Aucun numéro de série, nom de machine ni nom d'utilisateur n'est collecté, et les chemins de votre profil sont masqués.
@@ -59,7 +61,11 @@ Rien ne reste installé sur votre PC. Seule exception, à votre demande : l'opti
 
 ## Mises à jour
 
-Rustine regarde ici, sur GitHub, si une version plus récente est sortie. Si oui, il vous la propose avec « Mettre à jour », « Plus tard » ou « Ne plus me rappeler », et garde un bouton **Mettre à jour** en haut de la fenêtre avec le nombre de commits de retard. La mise à jour télécharge le nouvel exécutable depuis la dernière [release](https://github.com/samirmedani/rustine/releases), vérifie son empreinte SHA-256, remplace l'ancien et relance Rustine. Rien n'est envoyé pour cela.
+Rustine se met à jour tout seul depuis GitHub, et vous pouvez aussi le lui demander : le bouton **Mise à jour**, en haut à droite de la fenêtre, est toujours là. Cliquez-le pour rechercher une version plus récente ; il vous répond « ✓ À jour » ou vous propose la nouvelle version, avec sa date de publication et le nombre de commits de retard. Le bouton **Nouveautés ▾** déplie alors le journal des changements, lu directement dans la [release GitHub](https://github.com/samirmedani/rustine/releases) — le même texte que sur cette page.
+
+Si vous acceptez (« Mettre à jour » ; « Plus tard » et « Ne plus me rappeler » restent possibles), Rustine télécharge le fichier `Rustine-<version>.exe` de la dernière release, **vérifie son empreinte SHA-256** avant de remplacer l'ancien fichier, puis se relance tout seul. En ligne de commande : `Rustine.exe --chercher-mise-a-jour` pour vérifier et lire les nouveautés sans rien installer, `Rustine.exe --mettre-a-jour` pour installer directement.
+
+Pour cela, rien n'est envoyé : Rustine lit seulement deux fichiers publics de ce dépôt (`latest.txt` et les notes de la release). Aucune donnée sur votre PC ne part.
 
 ## Premier lancement : l'avertissement de Windows
 
@@ -88,6 +94,7 @@ Windows 11, 64 bits. Windows 10 peut fonctionner, sans garantie. Les droits admi
 | `--no-open` | N'ouvre pas le rapport dans le navigateur. |
 | `--sans-admin` | Pas de demande de droits administrateur. |
 | `--console` | Sortie texte dans le terminal. |
+| `--chercher-mise-a-jour` | Vérifie sur GitHub et affiche les nouveautés, sans rien installer. |
 | `--mettre-a-jour` | Installe la dernière version publiée ici, puis quitte. |
 
 ## Bugs et idées
