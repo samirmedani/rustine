@@ -49,6 +49,8 @@ C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où 
 
 Le bouton **Analyser la mémoire** surveille la RAM pendant une minute pour repérer ce qui grossit, et compare avec l'analyse précédente pour confirmer une fuite.
 
+Le bouton **♪ Latence audio** traque les craquements, pops et micro-coupures du son, et les micro-saccades en jeu. Pendant deux minutes, vous utilisez le PC comme d'habitude (musique, jeu, vidéo) et Rustine chronomètre chaque interruption et chaque DPC des pilotes, en direct, comme LatencyMon. Le rapport nomme le pilote qui bloque le processeur, dit quelle taille de tampon audio votre PC tient, explique pourquoi le son craque et donne les solutions dans l'ordre, y compris les causes qui ne viennent pas des pilotes (Bluetooth, fréquence d'échantillonnage, effets audio…).
+
 Le bouton **⚡ Extrême** pousse chaque composant au maximum (processeur, carte graphique, mémoire, disques, seuls ou tous ensemble, puis cinq minutes de chauffe CPU + GPU) et lui attribue un score comparable d'une machine à l'autre. Si vous le souhaitez, vous pouvez publier votre score au [classement public](https://yatofix.com/rustine/leaderboard) — pseudo et configuration seulement, rien d'autre.
 
 ## Vos données
@@ -90,6 +92,7 @@ Windows 11, 64 bits. Windows 10 peut fonctionner, sans garantie. Les droits admi
 | --- | --- |
 | `--sans-test` · `--rapide` · `--complet` · `--long` | Choisit la formule. |
 | `--memoire` | Analyse de la mémoire (60 s de surveillance). |
+| `--latence` | Latence audio : 2 minutes de mesure des pilotes (craquements du son, micro-saccades). |
 | `--hors-ligne` | Aucun envoi, aucun accès Internet. |
 | `--no-open` | N'ouvre pas le rapport dans le navigateur. |
 | `--sans-admin` | Pas de demande de droits administrateur. |
