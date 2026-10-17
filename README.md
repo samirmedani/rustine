@@ -36,7 +36,9 @@ C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où 
 | **Vitesse** | Disques (séquentiel et 4K), carte graphique, transferts PCIe, débit Internet. |
 | **Écrans et GPU** | Écran réglé sous sa fréquence max, carte graphique en x8, pilote planté. |
 | **Réseau** | Lien Ethernet bloqué à 100 Mb/s, Wi-Fi faible, pertes de paquets. |
-| **Santé de Windows** | Windows Update, sécurité, tâches et services qui tournent en douce, démarrage. |
+| **Santé de Windows** | Windows Update, sécurité, tâches et services qui tournent en douce. |
+| **Démarrage lent** | Les démarrages chronométrés par Windows : où passe le temps, et quel programme, pilote ou service le ralentit. |
+| **Réparer en un clic** | Fichiers temporaires, tâches et services orphelins, Windows Update, mode d'alimentation : vous cochez, Rustine corrige, « Tout annuler » remet comme avant. |
 
 ## Quatre formules
 
@@ -47,11 +49,31 @@ C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où 
 | Complet | ~1 min | En plus : tous les disques, débit Internet, 30 s de charge. |
 | Long | ~5 min | Quatre minutes de charge avec courbe de température, tests disque plus longs. |
 
-Le bouton **Analyser la mémoire** surveille la RAM pendant une minute pour repérer ce qui grossit, et compare avec l'analyse précédente pour confirmer une fuite.
+## Un souci précis ?
 
-Le bouton **♪ Latence audio** traque les craquements, pops et micro-coupures du son, et les micro-saccades en jeu. Pendant deux minutes, vous utilisez le PC comme d'habitude (musique, jeu, vidéo) et Rustine chronomètre chaque interruption et chaque DPC des pilotes, en direct, comme LatencyMon. Le rapport nomme le pilote qui bloque le processeur, dit quelle taille de tampon audio votre PC tient, explique pourquoi le son craque et donne les solutions dans l'ordre, y compris les causes qui ne viennent pas des pilotes (Bluetooth, fréquence d'échantillonnage, effets audio…).
+À l'accueil, choisissez votre souci : Rustine lance le test qui le cible et son verdict en parle d'abord.
 
-Le bouton **⚡ Extrême** pousse chaque composant au maximum (processeur, carte graphique, mémoire, disques, seuls ou tous ensemble, puis cinq minutes de chauffe CPU + GPU) et lui attribue un score comparable d'une machine à l'autre. Si vous le souhaitez, vous pouvez publier votre score au [classement public](https://yatofix.com/rustine/leaderboard) — pseudo et configuration seulement, rien d'autre.
+| Souci | Test lancé |
+| --- | --- |
+| Le son craque · Ça saccade en jeu | Latence audio, 2 min |
+| Il plante, écran bleu | Diagnostic rapide, verdict centré sur la stabilité |
+| Démarrage lent | Les derniers démarrages chronométrés par Windows, 2 s |
+| Lent au fil des heures | Analyse de la mémoire vive, 1 min |
+| Lent tout le temps | Diagnostic rapide |
+
+**Lent au fil des heures** surveille la RAM pendant une minute pour repérer ce qui grossit, et compare avec l'analyse précédente pour confirmer une fuite.
+
+**Le son craque** traque les craquements, pops et micro-coupures du son, et les micro-saccades en jeu. Pendant deux minutes, vous utilisez le PC comme d'habitude (musique, jeu, vidéo) et Rustine chronomètre chaque interruption et chaque DPC des pilotes, en direct, comme LatencyMon. Le rapport nomme le pilote qui bloque le processeur, dit quelle taille de tampon audio votre PC tient, explique pourquoi le son craque et donne les solutions dans l'ordre, y compris les causes qui ne viennent pas des pilotes (Bluetooth, fréquence d'échantillonnage, effets audio…).
+
+**Il plante, écran bleu** met en tête les écrans bleus et le pilote mis en cause, les arrêts brutaux, les erreurs matérielles, le pilote graphique qui plante, les barrettes mélangées et les secteurs illisibles. **Démarrage lent** montre combien de temps prend chaque démarrage, jusqu'au bureau puis après, et nomme ce qui le ralentit.
+
+## Mode Extrême
+
+Le bouton **⚡ Extrême** pousse chaque composant au maximum (processeur, carte graphique, mémoire, disques, seuls ou tous ensemble, puis cinq minutes de chauffe CPU + GPU) et lui attribue un score comparable d'une machine à l'autre. Si vous le souhaitez, publiez votre score au [classement public](https://yatofix.com/rustine/leaderboard) directement depuis la fenêtre, avec un pseudo facultatif : pseudo, configuration et scores seulement, rien d'autre.
+
+## Réparer en un clic
+
+Après le diagnostic, le bouton **Réparer en un clic** liste ce que Rustine sait corriger sur votre PC : fichiers temporaires de plus de 7 jours, tâches planifiées et services qui lancent un programme disparu, Windows Update en échec, mode d'alimentation bridé, corbeille, redémarrage en attente. Vous cochez ; Rustine crée d'abord un point de restauration, sauvegarde ce qu'il change, puis corrige en affichant chaque résultat. **Tout annuler** remet tâches, services et réglages comme avant (les fichiers supprimés, eux, ne reviennent pas), et **Refaire le diagnostic** montre ce qui est réglé.
 
 ## Vos données
 
@@ -59,7 +81,7 @@ Aucun numéro de série, nom de machine ni nom d'utilisateur n'est collecté, et
 
 Par défaut, le rapport est envoyé sur yatofix.com pour créer un lien public à partager, puis supprimé au bout de 180 jours. Votre rapport local contient un lien pour le supprimer vous-même. Pour rester hors ligne, décochez « Créer un lien public » ou lancez `Rustine.exe --hors-ligne`.
 
-Rien ne reste installé sur votre PC. Seule exception, à votre demande : l'option « Températures » installe le pilote signé [PawnIO](https://pawnio.eu).
+Rien ne reste installé sur votre PC. Seule exception, à votre demande : l'option « Températures » installe le pilote signé [PawnIO](https://pawnio.eu). « Réparer en un clic » ne change que ce que vous cochez.
 
 ## Mises à jour
 
@@ -93,6 +115,10 @@ Windows 11, 64 bits. Windows 10 peut fonctionner, sans garantie. Les droits admi
 | `--sans-test` · `--rapide` · `--complet` · `--long` | Choisit la formule. |
 | `--memoire` | Analyse de la mémoire (60 s de surveillance). |
 | `--latence` | Latence audio : 2 minutes de mesure des pilotes (craquements du son, micro-saccades). |
+| `--plante` · `--demarrage` | Diagnostic centré sur les plantages, ou sur le démarrage lent. |
+| `--reparer` | Corrige ce qui est coché d'office (ou `--reparer=temp,taches,services…`), point de restauration compris. |
+| `--reparer-filtre=<texte>` | Limite tâches et services à ceux dont le nom contient ce texte. |
+| `--annuler-reparation` | Remet tâches, services et réglages comme avant la réparation. |
 | `--hors-ligne` | Aucun envoi, aucun accès Internet. |
 | `--no-open` | N'ouvre pas le rapport dans le navigateur. |
 | `--sans-admin` | Pas de demande de droits administrateur. |
