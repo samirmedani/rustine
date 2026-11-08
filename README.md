@@ -5,8 +5,8 @@
 <h1 align="center">Rustine</h1>
 
 <p align="center">
-  Le diagnostic gratuit de votre PC Windows, en un seul fichier de moins de 1 Mo.<br>
-  Sans installation, sans publicité, sans abonnement.
+  Le diagnostic gratuit de votre PC Windows : tout le matériel d'un coup d'œil, des conseils clairs, des tests en un clic.<br>
+  Un seul fichier, sans installation, sans publicité, sans abonnement.
 </p>
 
 <p align="center">
@@ -17,79 +17,65 @@
   <a href="https://github.com/samirmedani/rustine/releases">Toutes les versions</a>
 </p>
 
+<p align="center">
+  <img src="assets/apercu-ensemble.webp" width="900" alt="Vue d'ensemble de Rustine : chaque composant dans sa case, avec son état">
+</p>
+
 ---
 
-Rustine passe votre PC Windows au crible et vous dit ce qui ne va pas, avec la marche à suivre pour chaque problème. Vous lancez le fichier, vous choisissez une formule, et le rapport s'ouvre dans votre navigateur.
+Vous ouvrez Rustine, et deux secondes plus tard tout votre PC est là, rangé : processeur, carte graphique, mémoire, carte mère, version et date du BIOS, disques, Windows et sa date d'installation, écrans. Chaque case a une pastille verte, jaune ou rose ; un clic ouvre le détail du composant.
 
-C'est écrit en Rust, sans bibliothèque standard, avec de l'assembleur là où chaque cycle compte. Résultat : l'inventaire complet prend moins d'un dixième de seconde, et le programme entier tient dans moins de 1 Mo, environ 70 fois moins que UserDiag (57 Mo).
+Rustine est écrit en Rust. Le moteur de diagnostic tourne sans bibliothèque standard, avec de l'assembleur là où chaque cycle compte, et lit les sources à la racine (SMBIOS, SMART et NVMe, journaux de Windows, vidages d'écran bleu) sans WMI ni PowerShell : l'inventaire complet prend moins d'un dixième de seconde. La fenêtre est dessinée par la carte graphique avec GPUI, le moteur d'interface de l'éditeur Zed. Le tout tient dans un fichier d'environ 10 Mo, cinq fois moins que UserDiag (57 Mo).
 
-## Ce que Rustine analyse
+## Ce que Rustine montre
 
 | | |
 | --- | --- |
-| **Écrans bleus et plantages** | Lecture directe des vidages noyau : code d'arrêt, pilote mis en cause, erreurs matérielles WHEA. |
-| **Santé des disques** | SMART et journal NVMe : usure, secteurs défectueux, température, données écrites. |
-| **RAM et XMP/EXPO** | Barrettes, canaux, fréquence réelle, profil désactivé, kits mélangés. |
-| **Où passe votre RAM** | Chaque page mémoire classée comme dans RAMMap, programmes et pilotes responsables, détection des vraies fuites. |
-| **Latence des pilotes** | Les pilotes qui font craquer le son et saccader les jeux, comme LatencyMon. |
-| **Températures** | Température et puissance du processeur, tenue sous charge. |
-| **Vitesse** | Disques (séquentiel et 4K), carte graphique, transferts PCIe, débit Internet. |
-| **Écrans et GPU** | Écran réglé sous sa fréquence max, carte graphique en x8, pilote planté. |
+| **Vue d'ensemble** | Une case par composant, son modèle, l'essentiel et son état. La santé (écrans bleus, plantages graphiques, antivirus, durée du démarrage), la place sur le disque de Windows et la mémoire utilisée. |
+| **Carte mère et BIOS** | Modèle, format, version et date du BIOS (avec son âge), UEFI et Secure Boot. |
+| **Mémoire** | Barrettes, canaux, fréquence réelle, profil XMP/EXPO coupé, kits mélangés, où passe la RAM. |
+| **Stockage** | SMART et journal NVMe : usure, secteurs défectueux, température, place libre. |
+| **Carte graphique et écrans** | Pilote et sa date, plantages, port PCIe bridé, écran réglé sous sa fréquence maximale. |
+| **Windows** | Mises à jour en échec, redémarrage en attente, sécurité, démarrage lent, ce qui se lance en douce. |
 | **Réseau** | Lien Ethernet bloqué à 100 Mb/s, Wi-Fi faible, pertes de paquets. |
-| **Santé de Windows** | Windows Update, sécurité, tâches et services qui tournent en douce. |
-| **Démarrage lent** | Les démarrages chronométrés par Windows : où passe le temps, et quel programme, pilote ou service le ralentit. |
-| **Réparer en un clic** | Fichiers temporaires, tâches et services orphelins, Windows Update, mode d'alimentation : vous cochez, Rustine corrige, « Tout annuler » remet comme avant. |
 
-## Quatre formules
+## Conseils
 
-| Formule | Durée | Contenu |
+Les constats de Rustine, courts et classés du plus utile au moins utile : ce qui ne va pas, pourquoi, et quoi faire. Quand c'est possible, un tuto pas à pas (BIOS, pilote, matériel) ou le test qui vérifie. Ce qui est souvent voulu ou normal est rangé à part, dans « Bon à savoir ».
+
+<p align="center"><img src="assets/apercu-conseils.webp" width="900" alt="Conseils de Rustine"></p>
+
+## Tests en un clic
+
+| Test | Durée | Mesure |
 | --- | --- | --- |
-| Sans test | ~2 s | Tout l'inventaire et les conseils, sans rien solliciter. |
-| Rapide | ~10 s | En plus : fréquence réelle, calcul, caches et RAM, disque Windows, carte graphique. |
-| Complet | ~1 min | En plus : tous les disques, débit Internet, 30 s de charge. |
-| Long | ~5 min | Quatre minutes de charge avec courbe de température, tests disque plus longs. |
+| Processeur et mémoire | ~5 s | Fréquence réelle, calcul sur tous les cœurs, débit et latence de la mémoire. |
+| Carte graphique | ~2 s | Calcul FP32, lecture de la mémoire vidéo, transferts PCIe. |
+| Disque de Windows | ~5 s | Lecture et écriture continues, petits fichiers, temps d'accès. |
+| Internet | ~10 s | Débit descendant et montant, ping (serveurs publics de Cloudflare). |
+| Latence audio | 1 min | Les pilotes qui font craquer le son et saccader les jeux, comme LatencyMon. |
 
-## Un souci précis ?
+<p align="center"><img src="assets/apercu-tests.webp" width="900" alt="Tests de Rustine"></p>
 
-À l'accueil, choisissez votre souci : Rustine lance le test qui le cible et son verdict en parle d'abord.
+## Partager pour se faire aider
 
-| Souci | Test lancé |
-| --- | --- |
-| Le son craque · Ça saccade en jeu | Latence audio, 2 min |
-| Il plante, écran bleu | Diagnostic rapide, verdict centré sur la stabilité |
-| Démarrage lent | Les derniers démarrages chronométrés par Windows, 2 s |
-| Lent au fil des heures | Analyse de la mémoire vive, 1 min |
-| Lent tout le temps | Diagnostic rapide |
+Le bouton **Partager**, en bas à droite :
 
-**Lent au fil des heures** surveille la RAM pendant une minute pour repérer ce qui grossit, et compare avec l'analyse précédente pour confirmer une fuite.
+- **À quelqu'un qui s'y connaît** : un lien vers le rapport complet, pour un forum, un Discord ou un réparateur. Les noms des programmes privés sont masqués.
+- **À une IA** : un message prêt à coller dans ChatGPT ou Claude, qui vous explique simplement ce qui va et ce qui ne va pas, et quoi faire en premier. Rustine n'intègre aucune IA et n'envoie rien à une IA : c'est vous qui collez le message.
+- **Copier en texte** ou **ouvrir le rapport complet** (HTML, gardé sur votre PC).
 
-**Le son craque** traque les craquements, pops et micro-coupures du son, et les micro-saccades en jeu. Pendant deux minutes, vous utilisez le PC comme d'habitude (musique, jeu, vidéo) et Rustine chronomètre chaque interruption et chaque DPC des pilotes, en direct, comme LatencyMon. Le rapport nomme le pilote qui bloque le processeur, dit quelle taille de tampon audio votre PC tient, explique pourquoi le son craque et donne les solutions dans l'ordre, y compris les causes qui ne viennent pas des pilotes (Bluetooth, fréquence d'échantillonnage, effets audio…).
-
-**Il plante, écran bleu** met en tête les écrans bleus et le pilote mis en cause, les arrêts brutaux, les erreurs matérielles, le pilote graphique qui plante, les barrettes mélangées et les secteurs illisibles. **Démarrage lent** montre combien de temps prend chaque démarrage, jusqu'au bureau puis après, et nomme ce qui le ralentit.
-
-## Mode Extrême
-
-Le bouton **⚡ Extrême** pousse chaque composant au maximum (processeur, carte graphique, mémoire, disques, seuls ou tous ensemble, puis cinq minutes de chauffe CPU + GPU) et lui attribue un score comparable d'une machine à l'autre. Si vous le souhaitez, publiez votre score au [classement public](https://yatofix.com/rustine/leaderboard) directement depuis la fenêtre, avec un pseudo facultatif : pseudo, configuration et scores seulement, rien d'autre.
-
-## Réparer en un clic
-
-Après le diagnostic, le bouton **Réparer en un clic** liste ce que Rustine sait corriger sur votre PC : fichiers temporaires de plus de 7 jours, tâches planifiées et services qui lancent un programme disparu, Windows Update en échec, mode d'alimentation bridé, corbeille, redémarrage en attente. Vous cochez ; Rustine crée d'abord un point de restauration, sauvegarde ce qu'il change, puis corrige en affichant chaque résultat. **Tout annuler** remet tâches, services et réglages comme avant (les fichiers supprimés, eux, ne reviennent pas), et **Refaire le diagnostic** montre ce qui est réglé.
+<p align="center"><img src="assets/apercu-partage.webp" width="900" alt="Partager le résultat"></p>
 
 ## Vos données
 
-Aucun numéro de série, nom de machine ni nom d'utilisateur n'est collecté, et les chemins de votre profil sont masqués.
+Aucun numéro de série, nom de machine ni nom d'utilisateur n'est collecté, et les chemins de votre profil sont masqués. L'analyse reste sur votre PC : le rapport n'est envoyé sur yatofix.com que si vous cliquez sur « Partager », puis « Créer le lien ». Il est supprimé au bout de 180 jours, et votre rapport local contient un lien pour le supprimer vous-même.
 
-Par défaut, le rapport est envoyé sur yatofix.com pour créer un lien public à partager, puis supprimé au bout de 180 jours. Votre rapport local contient un lien pour le supprimer vous-même. Pour rester hors ligne, décochez « Créer un lien public » ou lancez `Rustine.exe --hors-ligne`.
-
-Rien ne reste installé sur votre PC. Seule exception, à votre demande : l'option « Températures » installe le pilote signé [PawnIO](https://pawnio.eu). « Réparer en un clic » ne change que ce que vous cochez.
+Rustine n'installe rien. En ligne de commande seulement, `--pilote` installe le pilote signé [PawnIO](https://pawnio.eu) pour les températures du processeur.
 
 ## Mises à jour
 
-Rustine se met à jour tout seul depuis GitHub, et vous pouvez aussi le lui demander : le bouton **Mise à jour**, en haut à droite de la fenêtre, est toujours là. Cliquez-le pour rechercher une version plus récente ; il vous répond « ✓ À jour » ou vous propose la nouvelle version, avec sa date de publication et le nombre de commits de retard. Le bouton **Nouveautés ▾** déplie alors le journal des changements, lu directement dans la [release GitHub](https://github.com/samirmedani/rustine/releases) — le même texte que sur cette page.
-
-Si vous acceptez (« Mettre à jour » ; « Plus tard » et « Ne plus me rappeler » restent possibles), Rustine télécharge le fichier `Rustine-<version>.exe` de la dernière release, **vérifie son empreinte SHA-256** avant de remplacer l'ancien fichier, puis se relance tout seul. En ligne de commande : `Rustine.exe --chercher-mise-a-jour` pour vérifier et lire les nouveautés sans rien installer, `Rustine.exe --mettre-a-jour` pour installer directement.
-
-Pour cela, rien n'est envoyé : Rustine lit seulement deux fichiers publics de ce dépôt (`latest.txt` et les notes de la release). Aucune donnée sur votre PC ne part.
+Connecté à Internet, Rustine regarde ici s'il existe une version plus récente ; si oui, un bouton **Mettre à jour** apparaît en haut à droite. Rustine télécharge alors `Rustine-<version>.exe` de la dernière release, **vérifie son empreinte SHA-256**, remplace l'ancien fichier et se relance. Rien n'est envoyé pour cela : Rustine lit seulement `latest.txt` dans ce dépôt. En ligne de commande : `--chercher-mise-a-jour` et `--mettre-a-jour`.
 
 ## Premier lancement : l'avertissement de Windows
 
@@ -110,21 +96,20 @@ Windows 11, 64 bits. Windows 10 peut fonctionner, sans garantie. Les droits admi
 
 ## Ligne de commande
 
+Depuis un terminal (ou avec `--console`), Rustine répond en texte, sans fenêtre. Les anciens modes y restent disponibles.
+
 | Option | Effet |
 | --- | --- |
-| `--sans-test` · `--rapide` · `--complet` · `--long` | Choisit la formule. |
-| `--memoire` | Analyse de la mémoire (60 s de surveillance). |
-| `--latence` | Latence audio : 2 minutes de mesure des pilotes (craquements du son, micro-saccades). |
-| `--plante` · `--demarrage` | Diagnostic centré sur les plantages, ou sur le démarrage lent. |
-| `--reparer` | Corrige ce qui est coché d'office (ou `--reparer=temp,taches,services…`), point de restauration compris. |
-| `--reparer-filtre=<texte>` | Limite tâches et services à ceux dont le nom contient ce texte. |
-| `--annuler-reparation` | Remet tâches, services et réglages comme avant la réparation. |
+| `--sans-test` · `--rapide` · `--complet` · `--long` | Choisit la formule du diagnostic. |
+| `--memoire` | Analyse de la mémoire (60 s de surveillance des fuites). |
+| `--latence` | Latence audio : 2 minutes de mesure des pilotes. |
+| `--plante` · `--demarrage` · `--lent` · `--jeu` · `--peripherique` | Diagnostic centré sur un souci. |
+| `--extreme` | Mode Extrême : chaque composant au maximum, avec un score. |
+| `--reparer` · `--annuler-reparation` | Réparation de ce qui est coché d'office, point de restauration compris ; puis retour en arrière. |
 | `--hors-ligne` | Aucun envoi, aucun accès Internet. |
 | `--no-open` | N'ouvre pas le rapport dans le navigateur. |
 | `--sans-admin` | Pas de demande de droits administrateur. |
-| `--console` | Sortie texte dans le terminal. |
-| `--chercher-mise-a-jour` | Vérifie sur GitHub et affiche les nouveautés, sans rien installer. |
-| `--mettre-a-jour` | Installe la dernière version publiée ici, puis quitte. |
+| `--chercher-mise-a-jour` · `--mettre-a-jour` | Vérifie, ou installe, la dernière version publiée ici. |
 
 ## Bugs et idées
 
